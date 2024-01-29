@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class addSocialMediaAccount extends TobetoUrl {
+public class AddSocialMediaAccount extends TobetoUrl {
     public static String authToken;
     public static String SocialMediaName;
     public static String SocialMediaUrl;
@@ -51,9 +51,5 @@ public class addSocialMediaAccount extends TobetoUrl {
 
         response.then().assertThat()
                 .statusCode(200);
-
-
     }
-
-
 }

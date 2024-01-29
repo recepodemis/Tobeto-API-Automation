@@ -1,8 +1,8 @@
-package social_media;
+package foreignLanguage;
 
 import BaseUrl.TobetoUrl;
 import Login.AuthManager;
-import TestData.SocialMediaDataset;
+import TestData.ForeignLangDataset;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.json.JSONObject;
@@ -11,33 +11,34 @@ import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class existSocialMediaAccount extends TobetoUrl {
-    private static String authToken;
+public class AddLanguage extends TobetoUrl {
+    private String authToken;
     @Before
     public void setUp() {
 
         AuthManager authManager = new AuthManager();
-        authToken = authManager.authenticateUser("softwaretestdemotobeto@gmail.com", "wx6nn6ER3q.BY67");
+        authToken = authManager.authenticateUser("softwaretestdemotobeto@gmail.com",
+                                            "wx6nn6ER3q.BY67");
     }
     @Test
-    public void postExistMedia() {
+    public void addLang(){
 
-        tobetoUrl.pathParams("pp1", "user-social-medias");
-        JSONObject socialMediaJson = SocialMediaDataset.socialMedia("newss"
-                , "https://www.linkedin.com/in/recepodemis/");
+        tobetoUrl.pathParam("pp1","user-foreign-languages");
+
+        JSONObject data = ForeignLangDataset.foreignLangData("3",
+            "Temel Seviye ( A1 , A2)");
 
         Response response = given()
                 .spec(tobetoUrl)
                 .contentType("application/json")
                 .header("Authorization", "Bearer\n" + authToken)
-                .body(socialMediaJson.toString())
+                .body(data.toString())
                 .when()
                 .post("{pp1}");
 
         response.then().assertThat()
                 .statusCode(200)
-                .body("error.message", Matchers.equalTo("Bu sosyal medya zaten mevcut."));
-
-
+                .body("error.message", Matchers.equalTo("Bu dil zaten mevcut."));
     }
+
 }
